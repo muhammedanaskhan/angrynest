@@ -4,6 +4,9 @@
 - uploadthing - upload profile images
 - mongoose -
 - svix - for webhooks
+- react-hook-form - Manage form validation easily
+- zod - Declaring and validating Schemas, for complete guide - [https://ui.shadcn.com/docs/components/form]
+- 
 
 # File Structure
 
