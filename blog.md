@@ -9,6 +9,11 @@
 - currentUser() from clerk - helper returns the User object of the currently active user, which is default put in onboarding form
 - uploadthing - handles file upload + server side authentication 
 
+# Layout
+
+- Defined metadata objects in Layout Component which contains default metadata tags of the application, These metadata tags are important for search engine optimization (SEO).
+- 
+
 
 # Account onboarding
 
@@ -22,6 +27,12 @@
 # File Structure
 
 - Route Groups - Grouping related routes together in folder - (folder), without affecting the URL
-- components folder (outside of app folder) - In App folder files/folders to render on home page, NextJs supports file-based routing
+- app folder - contains both UI route and API route
+- API routes - Custom routes to handle HTTP requests/responses
+ - written in JavaScript are automatically deployed as serverless functions in the cloud. API routes provide a backend-like functionality within the frontend Next.js app,so we can build web applications without the need for a separate server.
+ - We're eliminating backend API routes (NodeJs Server), because we're already rendering everything on the server-side, we have server-side rendered page having client-side components 
 - utils - contains utility functions, that we re-use across the code 
 
+# Backend
+
+- 
