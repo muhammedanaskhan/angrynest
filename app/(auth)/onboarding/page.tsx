@@ -1,4 +1,4 @@
-'use client'
+
 import AccountProfile from '@/components/forms/AccountProfile';
 import '../../globals.css'
 import { currentUser } from "@clerk/nextjs";
