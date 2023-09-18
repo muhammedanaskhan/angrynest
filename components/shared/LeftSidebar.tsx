@@ -17,9 +17,14 @@ function LeftSidebar() {
                 {sidebarLinks.map((link, index) => {
                     const isActive = (pathname.includes(link.route) && link.route.length > 1) || (pathname === link.route)
                     return (
-                        <Link href={link.route} key={link.label} className={`leftsidebar_link ${isActive && `bg-primary-500`}`}>
-                            <Image src={link.imgURL} alt={link.label} width={24} height={24} />
-                            <p className='text-light-1 max-lg:hidden'>{link.label}</p>
+                        <Link href={link.route} key={link.label} className={`leftsidebar_link ${isActive ? 'text-white' : 'text-zinc-500'} ${isActive && 'bg-sky-500'}`}>
+                            {isActive ? (
+                                <Image src={link.imgURL} alt={link.label} width={24} height={24} />
+                            ) : (
+                                <Image src={link.darkimgURL} alt={link.label} width={24} height={24} />
+                            ) }
+                            {/* <Image src={link.imgURL} alt={link.label} width={24} height={24} /> */}
+                            <p className='max-lg:hidden'>{link.label}</p>
                         </Link>
                     )
                 })}
