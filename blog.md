@@ -73,4 +73,4 @@
 - **fetch user profile** - *lib > actions > user.actions.ts*, fetchUser function takes in userId and finds user using .findOne method on useSchema object with passed userId.
 - 
 - **create thread** - 
-  ![Create Thread Flow](/create-thread-flow.png "Create Thread Flow")
+  ![Create Thread Flow](https://ibb.co/pXDkgXf "Create Thread Flow")
