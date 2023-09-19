@@ -35,6 +35,15 @@
  - We're eliminating backend API routes (NodeJs Server), because we're already rendering everything on the server-side, we have server-side rendered page having client-side components 
 - **utils** - contains utility functions, that we re-use across the code 
 
+- **thread details** - *(root) > thread > [id] > page.tsx*, dynamic route to get specific thread's info..
+ - to get params, out of the url i.e, the thread-id
+  ```
+  const Page = ({ params } : {params: { id: string }}) => {  
+  }
+  ```
+  - get thread data - ```fetchThreadById(params.id)``` (from *thread.actions.ts*) 
+
+
 # ⚙️ Backend
 
 - **Server Actions** - No need to manually create API endpoints. Instead define asynchronous server functions that can be called directly from the components, Server Actions can be defined in Server Components or called from Client Components, but run only on Server.
@@ -75,3 +84,5 @@
 - 
 - **create thread** - 
    ![create-thread-flow](https://github.com/muhammedanaskhan/communet/assets/72510634/72d531e3-d849-4b5c-8847-aecbc4376665)
+
+

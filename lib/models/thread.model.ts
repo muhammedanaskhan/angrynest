@@ -5,8 +5,8 @@ import mongoose from "mongoose";
 const threadSchema = new mongoose.Schema({
     text: {type: String, required: true},
     author: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        type: mongoose.Schema.Types.ObjectId,   // means it stores ObjectId of a User
+        ref: "User",    //each Thread has a reference to a User as its author
         required: true,
     },
     community:{
