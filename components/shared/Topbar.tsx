@@ -6,7 +6,7 @@ function Topbar() {
     return (
         <nav className='topbar'>
             <Link href='/' className="flex items-center gap-2">
-                <Image src='/c_logo.png' width={28} height={28} alt='logo' />
+                <Image src='/c_logo.png' width={32} height={32} alt='logo' />
                 <p className="text-heading3-bold text-dark max-xs:hidden">Communet</p>
             </Link>
 

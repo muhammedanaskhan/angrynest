@@ -35,3 +35,40 @@ export async function createThread({ text, author, communityId, path }: Params) 
 
 
 }
+
+export async function fetchPosts(pageNumber = 1, pageSize: 20) {
+    connectToDB();
+
+    //calculate the number of posts to skip
+    const skipAmount = pageSize * (pageNumber - 1);
+
+    //fetch posts that that have no parents (top-level threads....)
+    const postsQuery = await Thread.find({parentId : {$in: [null, undefined]}})
+        .sort({ createdAt: 'desc' })
+        .skip(skipAmount)
+        .limit(pageSize)
+        .populate({path:'author', model: User})// populating the creator
+        .populate({ //populating the children
+            path:'children', 
+            populate: {
+                path: 'author',
+                model: User,
+                select: '_id name parentId image'
+            }
+        })
+
+
+                                                            // only top level threads
+        const totalPostCount = await Thread.countDocuments({parentId : {$in: [null, undefined]}});
+
+        const posts =  postsQuery;
+
+        //do we have a next page
+        const isNext = totalPostCount > skipAmount + posts.length;
+
+        return {
+            posts,
+            isNext,
+        }
+
+}
