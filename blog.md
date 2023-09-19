@@ -68,6 +68,9 @@
   
   ```
 
-- **create/update user profile** - *lib > actions > user.actions.ts*, updateUser function takes in params and implements .findOneUpdate method on useSchema object with passed params
+- **create/update user profile** - *lib > actions > user.actions.ts*, updateUser function takes in params and implements .findOneUpdate method (create or update if already exists) on useSchema object with passed params
 
+- **fetch user profile** - *lib > actions > user.actions.ts*, fetchUser function takes in userId and finds user using .findOne method on useSchema object with passed userId.
+- 
 - **create thread** - 
+  ![Create Thread Flow](/create-thread-flow.png "Create Thread Flow")

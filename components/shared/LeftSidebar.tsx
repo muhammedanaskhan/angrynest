@@ -33,8 +33,8 @@ function LeftSidebar() {
                 <SignedIn>
                     <SignOutButton signOutCallback={() => Router.push('/sign-in')}>
                         <div className="flex cursor-pointer gap-4 p-4">
-                            <Image src='/assets/logout.svg' width={20} height={20} alt='logout' />
-                            <p className='text-light-2 max-lg:hidden'>Logout</p>
+                            <Image src='/assets/logout_dark.svg' width={20} height={20} alt='logout' />
+                            <p className='text-zinc-500 max-lg:hidden'>Logout</p>
                         </div>
                     </SignOutButton>
                 </SignedIn>

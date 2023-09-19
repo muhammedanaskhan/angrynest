@@ -1,9 +1,24 @@
+import PostThread from "@/components/forms/PostThread";
+import { fetchUser } from "@/lib/actions/user.actions";
+import { currentUser } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
+
+
 async function Page(){
+  
+  const user = await currentUser(); // to know which user is creating post
+  if(!user)return null;
+
+  const userInfo = await fetchUser(user.id);
+
+  if(!userInfo?.onboarded) redirect('/onboarding');
+
 return(
-    <div>
-        {/* <UserButton afterSignOutUrl="/" /> */}
+    <>
+        
         <h1 className="head-text text-left">Create Thread</h1>
-      </div>
+        <PostThread userId={userInfo._id} />
+      </>
 )
 }
 

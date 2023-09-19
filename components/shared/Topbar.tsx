@@ -5,8 +5,8 @@ import {dark} from "@clerk/themes";
 function Topbar() {
     return (
         <nav className='topbar'>
-            <Link href='/' className="flex items-center gap-4">
-                <Image src='/logo.png' width={28} height={28} alt='logo' />
+            <Link href='/' className="flex items-center gap-2">
+                <Image src='/c_logo.png' width={28} height={28} alt='logo' />
                 <p className="text-heading3-bold text-dark max-xs:hidden">Communet</p>
             </Link>
 
@@ -15,7 +15,7 @@ function Topbar() {
                     <SignedIn>
                         <SignOutButton>
                             <div className="flex cursor-pointer">
-                                <Image src='/assets/logout.svg' width={20} height={20} alt='logout' />
+                                <Image src='/assets/logout_dark.svg' width={20} height={20} alt='logout' />
                             </div>
                         </SignOutButton>
                     </SignedIn>
