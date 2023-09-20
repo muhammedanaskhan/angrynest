@@ -42,6 +42,7 @@
   }
   ```
   - get thread data - ```fetchThreadById(params.id)``` (from *thread.actions.ts*) 
+  - commenting under a thread - 
 
 
 # ⚙️ Backend
