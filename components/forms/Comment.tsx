@@ -51,13 +51,13 @@ const Comment = ({threadId, currentUserImg, currentUserId}: Props) => {
         )
 
         form.reset(); // reset form after submit
-
-        router.push('/')
     }
 
 
     return(
         <Form {...form}>
+
+            
             <form
                 className='comment-form'
                 onSubmit={form.handleSubmit(onSubmit)}
