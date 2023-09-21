@@ -30,7 +30,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
                 bio={userInfo.bio}
             />
             <div className="mt-9">
-                <Tabs defaultValues="threads" className='w-full'>
+                <Tabs defaultValue="threads" className='w-full'>
                     <TabsList className='tab'>
                         {profileTabs.map((tab) => (
                             <TabsTrigger key={tab.label} value={tab.value} className='tab_option'>

@@ -4,6 +4,8 @@ import { revalidatePath } from "next/cache";
 import User from "../models/user.model";
 import { connectToDB } from "../mongoose"
 import Thread from "../models/thread.model";
+import { FilterQuery, SortOrder } from "mongoose";
+import { TypeOf } from "zod";
 
 interface Params {
   userId: string;
@@ -45,25 +47,25 @@ export async function updateUser({
   }
 }
 
-export async function fetchUser(userId: string){
-  try{
+export async function fetchUser(userId: string) {
+  try {
     connectToDB();
 
     return await User
       .findOne({ id: userId })
-      // .populate({
-      //   path: 'communities',
-      //   model: Community
-      // });
+    // .populate({
+    //   path: 'communities',
+    //   model: Community
+    // });
 
-  }catch(error: any){
+  } catch (error: any) {
     throw new Error(`Failed to fetch user: ${error.message}`);
   }
 }
 
 
-export async function fetchUserPost(userId: string){
-  try{
+export async function fetchUserPost(userId: string) {
+  try {
     connectToDB();
 
     //todo: populate communityu
@@ -84,7 +86,57 @@ export async function fetchUserPost(userId: string){
       });
 
     return threads;
-  }catch(error: any){
+  } catch (error: any) {
     throw new Error(`Failed to fetch user POsts: ${error.message}`);
   }
+}
+
+export async function fetchUsers({ 
+  userId,
+  searchString = '',
+  pageNumber = 1,
+  pageSize = 20,
+  sortBy = 'desc',
+ } : {
+  userId: string;
+  searchString?: string;
+  pageNumber?: number;
+  pageSize?: number;
+  sortBy?: SortOrder;
+ }) {
+
+  try {
+    connectToDB();
+
+    const skipAmount = (pageNumber - 1) * pageSize;
+
+    const regex = new RegExp(searchString, "i");
+
+    const query: FilterQuery<typeof User> = {
+      id: { $ne: userId }
+    }
+
+    if (searchString.trim() !== '' ) {
+      query.$or = [
+        { username: { $regex: regex} },
+        { name: { $regex: regex} },
+      ]
+    }
+
+    const sortOptions = {createdAt: sortBy};
+
+    const usersQuery = User.find(query).sort(sortOptions).skip(skipAmount).limit(pageSize);
+    
+    const totalUsersCount = await User.countDocuments(query);
+
+    const users = await usersQuery.exec();
+
+    const isNext = totalUsersCount > skipAmount + users.length;
+
+    return {users, isNext}
+
+  } catch (error: any) {
+    throw new Error(`Failed to fetch users: ${error.message}`);
+  }
+  
 }
