@@ -42,10 +42,10 @@ const ThreadCard = ({
                     </div>
                     <div className="flex w-full flex-col">
                         <Link href={`/profile/${author.id}`} className="w-fit">
-                            <h4 className="cursor-pointer text-base-semibold text-dark mt-2">{author.name}</h4>
+                            <h4 className="cursor-pointer text-base-semibold text-zinc-950">{author.name}</h4>
                         </Link>
-                        <p className='mt-2 text-small-regular text-dark'>{content}</p>
-                        <div className="mt-5 flex flex-col gap-3">
+                        <p className='mt-2 text-small-regular text-zinc-950'>{content}</p>
+                        <div className={`${isComment && 'mb-10'} mt-5 flex flex-col gap-3`}>
                             <div className="flex gap-3.5">
                                 <Image src='/assets/heart-gray.svg' alt="heart" width={24} height={24} className="cursor-pointer object-contain"/>
                                 <Link href={`/thread/${id}`}>
