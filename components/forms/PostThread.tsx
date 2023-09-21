@@ -20,6 +20,8 @@ import { Textarea } from "@/components/ui/textarea";
 // import { updateUser } from "@/lib/actions/user.actions";
 import { ThreadValidation } from "@/lib/validations/thread";
 import { createThread } from "@/lib/actions/thread.actions";
+import Loader from "../loader/loader";
+import { useState } from "react";
 
 interface Props {
     user: {
@@ -37,6 +39,7 @@ function PostThread({ userId }: { userId: string }) {
 
     const router = useRouter();
     const pathname = usePathname();
+    const[isLoading, setIsLoading] = useState(false);
 
     const form = useForm({
         resolver: zodResolver(ThreadValidation),
@@ -47,6 +50,7 @@ function PostThread({ userId }: { userId: string }) {
     });
 
     const onSubmit = async(values: z.infer<typeof ThreadValidation>) => {
+        setIsLoading(true);
         await createThread({
             text: values.thread,
             author: userId,
@@ -55,10 +59,12 @@ function PostThread({ userId }: { userId: string }) {
         })
 
         router.push('/')
+        setIsLoading(false);
     }
 
     return (
         <Form {...form}>
+            {isLoading && <Loader />}
             <form
                 className=' mt-10 flex flex-col justify-start gap-10'
                 onSubmit={form.handleSubmit(onSubmit)}
