@@ -14,8 +14,10 @@ async function page() {
   if(!userInfo?.onboarded) redirect('/onboarding');
   
   //getActivity
-
   const activity = await getActivity(userInfo._id);
+
+  //TODO: use this to fill replies tab in profile section
+  
   return (
     <section>
         <h1>Activity</h1>

@@ -87,3 +87,8 @@
    ![create-thread-flow](https://github.com/muhammedanaskhan/communet/assets/72510634/72d531e3-d849-4b5c-8847-aecbc4376665)
 
 
+
+# 🌐 Communities
+
+- **Web Hooks** - In order to create a community, utilized web hooks -
+  - An org can be created directly through clerk, but to get org data from clerk into the application, to append additional posts to the org, web hook will be waiting and listening the events from clerk, from which one can make additional actions of modifying the DB.
