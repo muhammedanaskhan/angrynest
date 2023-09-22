@@ -23,6 +23,8 @@ import { createThread } from "@/lib/actions/thread.actions";
 import Loader from "../loader/loader";
 import { useState } from "react";
 
+import { useOrganization } from "@clerk/nextjs";
+
 interface Props {
     user: {
         id: string;
@@ -39,7 +41,9 @@ function PostThread({ userId }: { userId: string }) {
 
     const router = useRouter();
     const pathname = usePathname();
-    const[isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const { organization } = useOrganization();
 
     const form = useForm({
         resolver: zodResolver(ThreadValidation),
@@ -49,14 +53,25 @@ function PostThread({ userId }: { userId: string }) {
         },
     });
 
-    const onSubmit = async(values: z.infer<typeof ThreadValidation>) => {
+    const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
         setIsLoading(true);
-        await createThread({
-            text: values.thread,
-            author: userId,
-            communityId: null,
-            path: pathname,
-        })
+        if (!organization) {
+            await createThread({
+                text: values.thread,
+                author: userId,
+                communityId: null,
+                path: pathname,
+            })
+        }else{
+            await createThread({
+                text: values.thread,
+                author: userId,
+                communityId: organization.id,
+                path: pathname,
+            })
+        }
+
+
 
         router.push('/')
         setIsLoading(false);
@@ -86,11 +101,11 @@ function PostThread({ userId }: { userId: string }) {
                             </FormControl>
                             <FormMessage />
                         </FormItem>
-                    )}/>
+                    )} />
 
-                    <Button type="submit" className="bg-sky-500">
-                        Post Thread
-                    </Button>
+                <Button type="submit" className="bg-sky-500">
+                    Post Thread
+                </Button>
             </form>
         </Form>
     )

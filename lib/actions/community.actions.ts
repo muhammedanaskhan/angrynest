@@ -7,6 +7,7 @@ import Thread from "../models/thread.model";
 import User from "../models/user.model";
 
 import { connectToDB } from "../mongoose";
+import exp from "constants";
 
 export async function createCommunity(
   id: string,
@@ -40,6 +41,8 @@ export async function createCommunity(
     // Update User model
     user.communities.push(createdCommunity._id);
     await user.save();
+
+    
 
     return createdCommunity;
   } catch (error) {

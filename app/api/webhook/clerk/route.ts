@@ -35,8 +35,11 @@ type Event = {
 };
 
 export const POST = async (request: Request) => {
+
     const payload = await request.json();
     const header = headers();
+
+    console.log("Received payload:", payload);
 
     const heads = {
         "svix-id": header.get("svix-id"),
@@ -68,6 +71,8 @@ export const POST = async (request: Request) => {
         const { id, name, slug, logo_url, image_url, created_by } =
             evnt?.data ?? {};
 
+            
+
         try {
             // @ts-ignore
             await createCommunity(
@@ -79,7 +84,7 @@ export const POST = async (request: Request) => {
                 "org bio",
                 created_by
             );
-
+            console.log("created community", NextResponse.json({ message: "User created" }, { status: 201 }));
             return NextResponse.json({ message: "User created" }, { status: 201 });
         } catch (err) {
             console.log(err);
