@@ -1,13 +1,27 @@
 import ThreadCard from "@/components/cards/ThreadCard";
-import { fetchPosts } from "@/lib/actions/thread.actions";
+import { fetchPosts, getReactionsData } from "@/lib/actions/thread.actions";
+import { fetchUser } from "@/lib/actions/user.actions";
 import { UserButton } from "@clerk/nextjs";
 import { ClerkProvider } from '@clerk/nextjs'
 import { currentUser } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
 
   const result = await fetchPosts(1, 20);
   const user = await currentUser();
+
+  if(!user) return null;
+
+  const userInfo = await fetchUser(user.id);
+  if(!userInfo?.onboarded) redirect('/onboarding');
+
+  const reactionsData = await getReactionsData({
+    userId: userInfo._id,
+    posts: result.posts,
+  });
+
+  const { childrenReactions, childrenReactionState } = reactionsData;
 
   return (
       <div>
@@ -18,7 +32,7 @@ export default async function Home() {
             <p className="no-result">No threads found</p>
           ) : (
               <>
-                {result.posts.map((post) => (
+                {result.posts.map((post, idx) => (
                   <ThreadCard 
                     key={post._id}
                     id={post._id}
@@ -29,6 +43,8 @@ export default async function Home() {
                     community={post.community}
                     createdAt={post.createdAt}
                     comments={post.children}
+                    reactions={childrenReactions[idx].users}
+                    reactState={childrenReactionState[idx]}
                   />
                 ))}
               </>

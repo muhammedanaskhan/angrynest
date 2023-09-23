@@ -1,5 +1,17 @@
 import mongoose from "mongoose";
 
+
+const reactionSchema = new mongoose.Schema({
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+  });
+
 // define the schema for our thread model
 
 const threadSchema = new mongoose.Schema({
@@ -20,6 +32,10 @@ const threadSchema = new mongoose.Schema({
     parentId:{
         type: String
     },
+    reactions: {
+        type: [reactionSchema],
+        default: [],
+    },
     children: [ // one thread can have multiple threads as its children
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -28,6 +44,14 @@ const threadSchema = new mongoose.Schema({
     ]
     
 })
+
+threadSchema.virtual("reactionsCount").get(function () {
+    return this.reactions.length;
+  });
+  
+  threadSchema.virtual("repliesCount").get(function () {
+    return this.children.length;
+  });
 
 const Thread = mongoose.models.Thread || mongoose.model("Thread", threadSchema);
 

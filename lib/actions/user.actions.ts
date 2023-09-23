@@ -93,12 +93,14 @@ export async function fetchUserPost(userId: string) {
 
 export async function fetchUsers({ 
   userId,
+  userIds,
   searchString = '',
   pageNumber = 1,
   pageSize = 20,
   sortBy = 'desc',
  } : {
   userId: string;
+  userIds?: string[];
   searchString?: string;
   pageNumber?: number;
   pageSize?: number;
@@ -114,6 +116,10 @@ export async function fetchUsers({
 
     const query: FilterQuery<typeof User> = {
       id: { $ne: userId }
+    }
+
+    if (userIds) {
+      query._id = { $in: userIds };
     }
 
     if (searchString.trim() !== '' ) {

@@ -1,6 +1,7 @@
 import { formatDateString } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import ReactThread from "../atoms/ReactThread";
 
 interface Props {
     id: string;
@@ -22,12 +23,20 @@ interface Props {
         author: {
             image: string;
         }
-    }[]
+    }[];
+    reactions: {
+        image: string;
+        _id: string;
+        id: string;
+        name: string;
+        username: string;
+      }[];
     isComment?: boolean;
+    reactState?: boolean;
 }
 
 const ThreadCard = ({ 
-    id, currentUserId, parentId, content, author, community, createdAt, comments, isComment
+    id, currentUserId, parentId, content, author, community, createdAt, comments, isComment, reactState
 }: Props) => {
 
     return(
@@ -48,7 +57,13 @@ const ThreadCard = ({
                         <p className='mt-2 text-small-regular text-zinc-950'>{content}</p>
                         <div className={`${isComment && 'mb-10'} mt-5 flex flex-col gap-3`}>
                             <div className="flex gap-3.5">
-                                <Image src='/assets/heart-gray.svg' alt="heart" width={24} height={24} className="cursor-pointer object-contain"/>
+                                <ReactThread
+                                    threadId={id}
+                                    currentUserId={currentUserId}
+                                    interactState={reactState}
+                                    parentId={parentId}
+                                    isComment={isComment}
+                                />
                                 <Link href={`/thread/${id}`}>
                                     <Image src='/assets/reply.svg' alt="reply" width={24} height={24} className="cursor-pointer object-contain"/>
                                 </Link>

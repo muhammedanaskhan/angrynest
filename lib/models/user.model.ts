@@ -1,5 +1,17 @@
 import mongoose from "mongoose";
 
+
+const reactionSchema = new mongoose.Schema({
+    thread: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Thread",
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+  });
+
 // define the schema for our user model
 
 const userSchema = new mongoose.Schema({
@@ -14,6 +26,10 @@ const userSchema = new mongoose.Schema({
             ref: "Thread"
         }
     ],
+    reactions:{
+        type: [reactionSchema],
+        default: [],
+    },
     onboarded: {
         type: Boolean,
         default: false
@@ -26,6 +42,26 @@ const userSchema = new mongoose.Schema({
     ]
 })
 
+
+userSchema.virtual("threadsCount").get(function () {
+    return this.threads.length;
+  });
+  
+//   userSchema.virtual("followersCount").get(function () {
+//     return this.followers.length;
+//   });
+  
+//   userSchema.virtual("followingCount").get(function () {
+//     return this.following.length;
+//   });
+  
+//   userSchema.virtual("communitiesCount").get(function () {
+//     return this.communities.length;
+//   });
+  
+  userSchema.virtual("reactionsCount").get(function () {
+    return this.reactions.length;
+  });
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 
 export default User;
