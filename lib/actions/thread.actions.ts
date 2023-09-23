@@ -252,12 +252,9 @@ export async function isThreadReactedByUser({
 
     const thread = await Thread.findById({ _id: threadId });
 
-    console.log("thread", thread);
     const isReacted: any = thread.reactions.some((reaction: any) =>
       reaction.user.equals(userId)
     );
-
-    console.log("isReacted", isReacted);
 
     return !!isReacted;
   } catch (err: any) {
@@ -281,9 +278,6 @@ export async function addReactToThread({
 
     const thread = await Thread.findById(threadId);
     const user = await User.findOne({ id: userId });
-
-    console.log("userId", userId);
-    console.log("user", user);
 
     if (!thread) {
       throw new Error("Thread not found");

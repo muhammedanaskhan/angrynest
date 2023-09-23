@@ -5,6 +5,7 @@ import Image from "next/image"
 import { usePathname } from "next/navigation"
 import Loader from "../loader/loader"
 import { useState } from "react"
+import { set } from "nprogress"
 
 
 interface Props {
@@ -26,20 +27,30 @@ const ReactThread = ({
     const pathname = usePathname()
     const [loading , setLoading] = useState(false)
 
+    const [liked, setLiked] = useState(interactState); // Initially set to the current state
+
     const handleClick = async () => {
         setLoading(true)
-        await addReactToThread({
-            threadId,
-            userId: currentUserId,
-            path: pathname
-        })
-        setLoading(false)
+        try {
+            setLiked(!liked);
+            await addReactToThread({
+                threadId,
+                userId: currentUserId,
+                path: pathname
+            })
+            setLoading(false);
+        } catch (error) {
+            console.log(error)
+            setLiked(!liked);
+            setLoading(false);
+        }
     }
+
     return (
         <>
             {loading && <Loader/>}
             <Image
-                src={`/assets/heart-${interactState ? "filled" : "gray"}.svg`}
+                src={`/assets/heart-${liked ? "filled" : "gray"}.svg`}
                 alt="heart"
                 width={24}
                 height={24}
