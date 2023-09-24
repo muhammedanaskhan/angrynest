@@ -111,7 +111,7 @@ const ThreadCard = ({
                                 </Link>
                             </div>
                         )}
-                        {reactions.length > 0 && (
+                        {reactions?.length > 0 && (
                             <div className="ml-1 mt-3 flex items-center gap-2">
                                 {reactions.slice(0, 2).map((reaction, index) => (
                                     <Image
