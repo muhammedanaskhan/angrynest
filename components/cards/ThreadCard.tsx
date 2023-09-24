@@ -36,7 +36,7 @@ interface Props {
 }
 
 const ThreadCard = ({ 
-    id, currentUserId, parentId, content, author, community, createdAt, comments, isComment, reactState
+    id, currentUserId, parentId, content, author, community, createdAt, comments, reactions, isComment, reactState
 }: Props) => {
 
     return(
@@ -88,6 +88,54 @@ const ThreadCard = ({
                     </Link>
                 )}
             </div>
+            <div className="flex flex-row gap-2">
+                {!isComment && (
+                    <>
+                        {comments.length > 0 && (
+                            <div className="ml-1 mt-3 flex items-center gap-2">
+                                {comments.slice(0, 2).map((comment, index) => (
+                                    <Image
+                                        key={index}
+                                        src={comment.author.image}
+                                        alt={`user_${index}`}
+                                        width={24}
+                                        height={24}
+                                        className={`${index !== 0 && "-ml-5"} rounded-full object-cover`}
+                                    />
+                                ))}
+                                <Link href={`/thread/${id}`}>
+                                    <p className="mt-1 text-subtle-medium text-gray-1">
+                                        {comments.length}{" "}
+                                        {comments.length > 1 ? "replies" : "reply"}
+                                    </p>
+                                </Link>
+                            </div>
+                        )}
+                        {reactions.length > 0 && (
+                            <div className="ml-1 mt-3 flex items-center gap-2">
+                                {reactions.slice(0, 2).map((reaction, index) => (
+                                    <Image
+                                        key={index}
+                                        src={reaction.image}
+                                        alt={`user_${index}`}
+                                        width={24}
+                                        height={24}
+                                        className={`${index !== 0 && "-ml-5"
+                                            } rounded-full object-cover`}
+                                    />
+                                ))}
+
+                                <Link href={`/thread/reactions/${id}`}>
+                                    <p className="mt-1 text-subtle-medium text-gray-1">
+                                        {reactions.length} {reactions.length > 1 ? "likes" : "like"}
+                                    </p>
+                                </Link>
+                            </div>
+                        )}
+                    </>
+                )}
+            </div>
+            
         </article>
     )
 }

@@ -30,7 +30,6 @@ const ReactThread = ({
     const [liked, setLiked] = useState(interactState); // Initially set to the current state
 
     const handleClick = async () => {
-        setLoading(true)
         try {
             setLiked(!liked);
             await addReactToThread({
@@ -38,11 +37,9 @@ const ReactThread = ({
                 userId: currentUserId,
                 path: pathname
             })
-            setLoading(false);
         } catch (error) {
             console.log(error)
             setLiked(!liked);
-            setLoading(false);
         }
     }
 
