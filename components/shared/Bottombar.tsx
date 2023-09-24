@@ -16,7 +16,7 @@ function Bottombar(){
             {sidebarLinks.map((link, index) => {
                     const isActive = (pathname.includes(link.route) && link.route.length > 1) || (pathname === link.route)
                     return (
-                        <Link href={link.route} key={link.label} className={`bottombar_link ${isActive && `bg-sky-500`}`}>
+                        <Link href={link.route} key={link.label} className={`bottombar_link ${isActive && `bg-zinc-950`}`}>
                             {isActive ? (
                                 <Image src={link.imgURL} alt={link.label} width={24} height={24} />
                             ) : (

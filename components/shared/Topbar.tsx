@@ -19,7 +19,6 @@ async function Topbar() {
     const user = await currentUser();
     if(!user)return null;
 
-    console.log("user",user)
     const userInfo = await fetchUser(user.id);
 
     return (
