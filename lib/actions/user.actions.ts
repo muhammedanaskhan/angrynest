@@ -176,3 +176,106 @@ export async function getActivity(userId: string) {
     throw new Error(`Failed to fetch user activity: ${error.message}`);
   }
 }
+
+export async function fetchUsersByField(userId: string, field: string) {
+  try {
+    connectToDB();
+
+    const user = await User.findOne({ id: userId });
+
+    const usersIds = user[field].map((user: any) => user.user);
+
+    const users = await User.find({ _id: { $in: usersIds } });
+
+    return users;
+  } catch (error: any) {
+    throw new Error(`Failed to fetch users: ${error.message}`);
+  }
+}
+
+export async function isUserFollowing(followerId: string, followedId: string) {
+  try {
+    connectToDB();
+
+    const followed = await User.findOne({ id: followedId });
+
+    const isFollowing = await User.findOne({
+      id: followerId,
+      following: { $elemMatch: { user: followed._id } },
+    });
+
+    return !!isFollowing;
+  } catch (error: any) {
+    throw new Error(`Failed to check if user is followed: ${error.message}`);
+  }
+}
+
+export async function followUser({
+  followerId,
+  followedId,
+  path,
+}: {
+  followerId: string;
+  followedId: string;
+  path: string;
+}) {
+  try {
+    connectToDB();
+
+    const follower = await User.findOne({ id: followerId });
+
+    if (!follower) {
+      throw new Error("Follower not found");
+    }
+
+    const followed = await User.findOne({ id: followedId });
+
+    if (!followed) {
+      throw new Error("Followed not found");
+    }
+
+    const isAlreadyFollowed = await isUserFollowing(followerId, followedId);
+
+    if (isAlreadyFollowed) {
+      follower.following.pull({
+        user: followed._id,
+      });
+    } else {
+      follower.following.push({
+        user: followed._id,
+      });
+    }
+
+    await follower.save();
+
+    if (isAlreadyFollowed) {
+      followed.followers.pull({
+        user: follower._id,
+      });
+    } else {
+      followed.followers.push({
+        user: follower._id,
+      });
+    }
+
+    await followed.save();
+
+    revalidatePath(path);
+  } catch (error: any) {
+    throw new Error(`Failed to follow user: ${error.message}`);
+  }
+}
+
+export async function getUserFollowersIds(userId: string, key: string) {
+  try {
+    connectToDB();
+
+    const user = await User.findOne({ id: userId });
+
+    const followersIds = user[key].map((folower: any) => folower.user);
+
+    return followersIds;
+  } catch (error: any) {
+    throw new Error(`Failed to fetch user followers: ${error.message}`);
+  }
+}

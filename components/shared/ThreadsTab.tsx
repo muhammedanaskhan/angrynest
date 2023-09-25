@@ -1,6 +1,8 @@
-import { fetchUserPost } from "@/lib/actions/user.actions";
+import { fetchUser, fetchUserPost } from "@/lib/actions/user.actions";
 import { redirect } from "next/navigation";
 import ThreadCard from "../cards/ThreadCard";
+import { currentUser } from "@clerk/nextjs";
+import { getReactionsData } from "@/lib/actions/thread.actions";
 
 interface Props {
     currentUserId: string;
@@ -17,9 +19,23 @@ const ThreadsTab = async({currentUserId, accountId, accountType}: Props) => {
     
     if(!result) redirect('/');
 
+    const user = await currentUser();
+    if (!user) return null;
+  
+    const userInfo = await fetchUser(user.id);
+    if (!userInfo?.onboarded) redirect("/onboarding");
+  
+    const reactionsData = await getReactionsData({
+      userId: userInfo._id,
+      posts: result.threads,
+    });
+  
+    const { childrenReactions, childrenReactionState } = reactionsData;
+  
+
     return(
         <section className="mt-9 flex flex-col gap-10">
-            {result.threads.map((thread: any) => (
+            {result.threads.map((thread: any, idx: any) => (
                 <ThreadCard
                     key={thread._id}
                     id={thread._id}
@@ -33,6 +49,8 @@ const ThreadsTab = async({currentUserId, accountId, accountType}: Props) => {
                     community={thread.community} //todo
                     createdAt={thread.createdAt}
                     comments={thread.children}
+                    reactions={childrenReactions[idx].users}
+                    reactState={childrenReactionState[idx]}
                 />
             ))}
         </section>

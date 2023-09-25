@@ -1,4 +1,5 @@
 import Image from "next/image";
+import FollowUser from "../atoms/FollowUser";
 
 interface Props {
     accountId: string;
@@ -7,6 +8,7 @@ interface Props {
     username: string;
     imgUrl: string;
     bio: string;
+    isFollowing?: boolean;
 }
 
 const ProfileHeader = ({
@@ -15,7 +17,8 @@ const ProfileHeader = ({
     name,
     username,
     imgUrl,
-    bio
+    bio,
+    isFollowing
 }: Props) => {
 
     return (
@@ -30,8 +33,15 @@ const ProfileHeader = ({
                         <p className="text-base-medium text-gray-1">@{username}</p>
                     </div>
                 </div>
+                {accountId !== authUserId && (
+                    <FollowUser
+                        userId={accountId}
+                        currentUserId={authUserId}
+                        isFollowing={isFollowing}
+                    />
+                )}
             </div>
-            {/* {TODO: community} */}
+
             <p className="mt-6 max-w-lg text-base-regular text-gray-500">{bio}</p>
             <div className="mt-12 h-0.5 w-full bg-zinc-500"></div>
 

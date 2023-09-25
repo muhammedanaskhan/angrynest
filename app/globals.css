@@ -50,6 +50,10 @@
     @apply h-auto min-w-[74px] rounded-lg  bg-zinc-950 text-[12px] text-light-1 !important;
   }
 
+  .follow-card_btn {
+    @apply rounded-lg bg-zinc-950 px-3 py-1.5 text-small-regular !text-light-1 !important;
+  }
+
   .searchbar {
     @apply flex gap-1 rounded-lg bg-dark-3 px-4 py-2;
   }

@@ -41,7 +41,7 @@ async function Topbar() {
                 </div>
                 <DropdownMenu>
                     <DropdownMenuTrigger>
-                    <Image src={userInfo.image} width={32} height={32} alt='logo' className="rounded-full object-cover" />
+                    <Image src={userInfo?.image} width={32} height={32} alt='logo' className="rounded-full object-cover" />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
                         <DropdownMenuLabel>My Account</DropdownMenuLabel>
