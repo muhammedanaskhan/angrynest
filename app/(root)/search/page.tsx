@@ -25,6 +25,7 @@ async function page({
     pageSize: 25,
   })
 
+  // {TODO} : Add pagination
 
   return (
     <section>

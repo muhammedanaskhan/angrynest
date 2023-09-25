@@ -147,33 +147,91 @@ export async function fetchUsers({
   
 }
 
-export async function getActivity(userId: string) {
-  try{
 
+export async function getActivity(userId: string) {
+  try {
     connectToDB();
 
-    //find all threads and comments by user
-    const userThreads = await Thread.find({ author: userId });
+    const [userThreads, user] = await Promise.all([
+      Thread.find({ author: userId }),
+      User.findOne({ _id: userId }),
+    ]);
 
-    //collect all the child thread ids(replies) from the children field
-    const childThreadIds = userThreads.reduce((acc, userThread) => {
-      return acc.concat(userThread.children);
-    },[]);
+    const childThreadIds = userThreads.flatMap(
+      (userThread) => userThread.children
+    );
+    const reactions = userThreads.flatMap((userThread) => userThread.reactions);
 
-    //find all the replies that are not by the user itself
-    const replies = await Thread.find({ 
-      _id: { $in: childThreadIds },
-      author: { $ne: userId }
-    }).populate({
-      path: 'author',
-      model: User,
-      select: 'name image _id'
+    const [reactionsUsers, followersUsers] = await Promise.all([
+      User.find({ _id: { $in: reactions.map((reaction) => reaction.user) } }),
+      User.find({
+        _id: {
+          $in: user.followers.map((follower: { user: any }) => follower.user),
+        },
+      }),
+    ]);
+
+    const reactionsData = reactions.map((reaction, index) => {
+      const reactingUser = reactionsUsers.find(
+        (user) => user._id.toString() === reaction.user.toString()
+      );
+
+      if (reactingUser._id.equals(userId)) return null;
+      return {
+        author: {
+          name: reactingUser.name,
+          username: reactingUser.username,
+          image: reactingUser.image,
+          _id: reactingUser._id,
+          id: reactingUser.id,
+        },
+        createdAt: reaction.createdAt,
+        parentId: userThreads[0]._id.toString(),
+        activityType: "reaction",
+      };
     });
 
-    return replies;
+    const followersData = user.followers.map(
+      (follower: { user: { toString: () => any }; createdAt: any }) => {
+        const followingUser = followersUsers.find(
+          (user) => user._id.toString() === follower.user.toString()
+        );
 
-  }catch (error: any) {
-    throw new Error(`Failed to fetch user activity: ${error.message}`);
+        if (followingUser._id.equals(userId)) return null;
+        return {
+          author: {
+            name: followingUser.name,
+            username: followingUser.username,
+            image: followingUser.image,
+            _id: followingUser._id,
+            id: followingUser.id,
+          },
+          createdAt: follower.createdAt,
+          activityType: "follow",
+        };
+      }
+    );
+
+    const [replies, reactionsAndFollowers] = await Promise.all([
+      Thread.find({
+        _id: { $in: childThreadIds },
+        author: { $ne: userId },
+      }).populate({
+        path: "author",
+        model: User,
+        select: "name username image _id",
+      }),
+      reactionsData.concat(followersData),
+    ]);
+
+    const activity = [...replies, ...reactionsAndFollowers]
+      .filter((i) => i !== null)
+      .sort((a, b) => b?.createdAt - a?.createdAt);
+
+    return activity;
+  } catch (error) {
+    console.error("Error fetching activity: ", error);
+    throw error;
   }
 }
 
