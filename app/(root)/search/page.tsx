@@ -1,16 +1,15 @@
 import UserCard from "@/components/cards/UserCard";
-import PostThread from "@/components/forms/PostThread";
-import ProfileHeader from "@/components/shared/ProfileHeader";
-import ThreadsTab from "@/components/shared/ThreadsTab";
-import { profileTabs } from "@/constants";
-import { fetchUser, fetchUserPost, fetchUsers } from "@/lib/actions/user.actions";
+import { fetchUser, fetchUsers } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 
+import Searchbar from "@/components/shared/Searchbar";
 
-
-async function page() {
+async function page({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined };
+}) {
 
   const user = await currentUser(); // to know which user is creating post
   if(!user)return null;
@@ -21,17 +20,15 @@ async function page() {
   //Fetch users
   const result = await fetchUsers({
     userId: user.id,
-    searchString: '',
+    searchString: searchParams.q,
     pageNumber: 1,
     pageSize: 25,
   })
 
 
-
-
   return (
     <section>
-        <h1>Search</h1>
+        <Searchbar routeType="search" />
         <div className="mt-14 flex flex-col gap-9">
         {result.users.length === 0 ? (
           <p className="no-result">NO Users..</p>
