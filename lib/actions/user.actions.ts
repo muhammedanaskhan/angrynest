@@ -68,7 +68,6 @@ export async function fetchUserPost(userId: string) {
   try {
     connectToDB();
 
-    //todo: populate communityu
     const threads = await User
       .findOne({ id: userId })
       .populate({

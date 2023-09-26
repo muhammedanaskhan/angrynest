@@ -25,9 +25,6 @@ const Page = async ({ params }: { params: { id: string } }) => {
   
     const isFollowing = await isUserFollowing(user.id, params.id);
 
-    console.log("params.id", params.id);
-    console.log("followers", followers);
-
     return(
         <section>
             <ProfileHeader
