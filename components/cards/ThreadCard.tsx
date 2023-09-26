@@ -2,11 +2,12 @@ import { formatDateString } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import ReactThread from "../atoms/ReactThread";
+import DeleteThread from "../forms/DeleteThread";
 
 interface Props {
     id: string;
     currentUserId: string;
-    parentId: number | null;
+    parentId: string | null;
     content: string;
     author:{
         name: string;
@@ -65,10 +66,10 @@ const ThreadCard = ({
                                     isComment={isComment}
                                 />
                                 <Link href={`/thread/${id}`}>
-                                    <Image src='/assets/reply.svg' alt="reply" width={24} height={24} className="cursor-pointer object-contain"/>
+                                    <Image src='/assets/reply.svg' alt="reply" width={24} height={24} className="cursor-pointer object-contain" />
                                 </Link>
-                                <Image src='/assets/repost.svg' alt="repost" width={24} height={24} className="cursor-pointer object-contain"/>
-                                <Image src='/assets/share.svg' alt="share" width={24} height={24} className="cursor-pointer object-contain"/>
+                                <Image src='/assets/repost.svg' alt="repost" width={24} height={24} className="cursor-pointer object-contain" />
+                                <Image src='/assets/share.svg' alt="share" width={24} height={24} className="cursor-pointer object-contain" />
                             </div>
                             {isComment && comments.length > 0 && (
                                 <Link href={`/thread/${id}`}>
@@ -77,9 +78,17 @@ const ThreadCard = ({
                             )}
                         </div>
                     </div>
+                    <div className="flex flex-row gap-2 h-6">
+                        <DeleteThread
+                            threadId={JSON.stringify(id)}
+                            currentUserId={currentUserId}
+                            authorId={author.id}
+                            parentId={parentId}
+                            isComment={isComment}
+                        />
+                    </div>
                 </div>
                 {/* TODOD: DELETE THREAD */}
-                {/* TODOD: SHOW COMMENT LOGOS */}
 
                 {!isComment && community && (
                     <Link href={`/communities/${community.id}`} className="mt-5 flex items-center">
@@ -135,6 +144,7 @@ const ThreadCard = ({
                     </>
                 )}
             </div>
+            
             
         </article>
     )

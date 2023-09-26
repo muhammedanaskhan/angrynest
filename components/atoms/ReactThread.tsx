@@ -13,7 +13,7 @@ interface Props {
     currentUserId: string,
     interactState?: boolean,
     isComment?: boolean,
-    parentId?: number | null,
+    parentId?: string | null,
 }
 
 const ReactThread = ({
