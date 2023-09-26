@@ -21,7 +21,7 @@ export const sidebarLinks = [
       imgURL: "/assets/create.svg",
       darkimgURL: "/assets/create_dark.svg",
       route: "/create-thread",
-      label: "Create Thread",
+      label: "Create Post",
     },
 
     {
@@ -33,13 +33,13 @@ export const sidebarLinks = [
   ];
   
   export const profileTabs = [
-    { value: "threads", label: "Threads", icon: "/assets/reply.svg" },
+    { value: "threads", label: "Posts", icon: "/assets/reply.svg" },
     { value: "followers", label: "Followers", icon: "/assets/members.svg" },
     { value: "following", label: "Following", icon: "/assets/members.svg" },
   ];
   
   export const communityTabs = [
-    { value: "threads", label: "Threads", icon: "/assets/reply.svg" },
+    { value: "threads", label: "Posts", icon: "/assets/reply.svg" },
     { value: "members", label: "Members", icon: "/assets/members.svg" },
     { value: "requests", label: "Requests", icon: "/assets/request.svg" },
   ];
