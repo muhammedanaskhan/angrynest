@@ -29,4 +29,4 @@
 
 Communet web application, a social media platform where one can share thoughts, with his/her. Communet is a full-stack web application built with TypeScript using Next.js 13 with Server Side Rendering. It uses MongoDB as a database, and Clerk as an authentication provider. It also uses UploadThing to upload images to the cloud. The application is styled with Tailwind CSS and Shadcn components.
 
-#### [View Demo](https://nextjs13-threads.vercel.app
+#### [View Demo](https://nextjs13-threads.vercel.app/)
