@@ -186,6 +186,8 @@ nextjs13-threads/
 - **Server Actions** - No need to manually create API endpoints. Instead define asynchronous server functions that can be called directly from the components, Server Actions can be defined in Server Components or called from Client Components, but run only on Server.
  - *lib > actions > user.actions.ts* - // first create a connection to db using mongoose
 
+- **Serverless Backend** - ![removing_backend](https://github.com/muhammedanaskhan/communet/assets/72510634/ead9278f-ca26-4d7b-95a2-ffa1c85e98b9)
+
 - **MongoDB Schema** - *lib > models > user.model.ts*
   ``` 
   const userSchema = new mongoose.Schema({
@@ -218,7 +220,8 @@ nextjs13-threads/
 - **create/update user profile** - *lib > actions > user.actions.ts*, updateUser function takes in params and implements .findOneUpdate method (create or update if already exists) on useSchema object with passed params
 
 - **fetch user profile** - *lib > actions > user.actions.ts*, fetchUser function takes in userId and finds user using .findOne method on useSchema object with passed userId.
-- 
-- **create thread** - 
+- **Find Thread By ID ** -
+- **create thread** - ![findThreadById](https://github.com/muhammedanaskhan/communet/assets/72510634/df4fb1c7-1de7-47bf-b505-800293d77bda)
+
    ![create-thread-flow](https://github.com/muhammedanaskhan/communet/assets/72510634/72d531e3-d849-4b5c-8847-aecbc4376665)
 
