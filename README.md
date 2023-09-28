@@ -1,9 +1,6 @@
 <a name="readme-top"></a>
 
 <p align="center">
-![favicon-32x32](https://github.com/muhammedanaskhan/communet/assets/72510634/fb881cc2-841c-477d-9ef4-67abcc805448)
-</p>
-<p align="center">
 <!-- Badges -->
   <a href="https://github.com/muhammedanaskhan">
     <img src="https://custom-icon-badges.demolab.com/badge/made%20by%20-ladunjexa-556bf2?style=flat-square&logo=github&logoColor=white&labelColor=101827" alt="made by @muhammedanaskhan" />
