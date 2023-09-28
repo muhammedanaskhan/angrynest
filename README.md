@@ -3,7 +3,7 @@
 <p align="center">
 <!-- Badges -->
   <a href="https://github.com/muhammedanaskhan">
-    <img src="https://custom-icon-badges.demolab.com/badge/made%20by%20-ladunjexa-556bf2?style=flat-square&logo=github&logoColor=white&labelColor=101827" alt="made by @muhammedanaskhan" />
+    <img src="https://custom-icon-badges.demolab.com/badge/made%20by%20-muhammedanaskhan-556bf2?style=flat-square&logo=github&logoColor=white&labelColor=101827" alt="made by @muhammedanaskhan" />
   </a>
   <a href="https://github.com/muhammedanaskhan/communet/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="license" />
